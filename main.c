@@ -6,13 +6,11 @@
 
 void testAVLImplem();
 
-
 int main(int argc, char const *argv[])
 {
     testAVLImplem();
     return 0;
 }
-
 void testAVLImplem(){
     _avlTree root = NULL;
     insertAVL(&root,10);
@@ -45,5 +43,8 @@ void testAVLImplem(){
     printAVL(root,0);
     insertAVL(&root, 6);
     printf("\n\n****************************\n\n");
+    printAVL(root,0);
+    printf("Nombre de noeuds : %d\n", nbNodesAVL(root));
+    root = searchAVL_it(root,10);
     printAVL(root,0);
 }

@@ -5,6 +5,12 @@
 #include "elt.h"
 #include "avl.h"
 
+static _avlTree newNodeAVL(_element e);
+static _avlTree rotateRightAVL(_avlTree A);
+static _avlTree rotateLeftAVL(_avlTree A);
+static _avlTree balanceAVL(_avlTree A);
+
+
 /**
  +===============================================================================================================+
  |+-------------------------------------------------------------------------------------------------------------+|
@@ -173,6 +179,8 @@ void insertAVL(_avlTree *pA, _element e){
     //Create an int array to store the potential changes of balancing coefficients
     int *sides =  malloc(sizeof(int) * (height));
 
+    int comparison;
+
     //Case of an empty tree
     if(*pA == NULL){
         *pA = newNodeAVL(e);
@@ -184,16 +192,16 @@ void insertAVL(_avlTree *pA, _element e){
         //Add current pointer to the current subtree to the stack   
         top++;
         path[top] = pA;     
-
+        comparison = compareElt(e,(*pA)->value);
         //If the element is less than the value in the current node
-        if(e < (*pA)->value){
+        if(comparison < 0){
             //Go to the left, add 1 to potential balance coefficient and continue the loop
             pA = &((*pA) -> left);
             sides[top] = 1;
             continue;
         }
         //If the element is greater than the value in the current node
-        else if(e > (*pA) -> value){
+        else if(comparison > 0){
             //Go to the right, add -1 to potential balance coefficient and continue the loop
             pA = &(*pA) -> right;
             sides[top] = -1;
@@ -214,6 +222,45 @@ void insertAVL(_avlTree *pA, _element e){
     }
     //Reset pointer to the original tree
     pA = path[0];
+}
+
+_avlTree searchAVL_rec(_avlTree root, _element e){
+    int comparison;
+
+    if(root == NULL){
+        return NULL;
+    }
+
+    comparison = compareElt(e,root->value);
+    if(comparison < 0){
+        return(searchAVL_rec (root->left, e));
+    }else if(comparison > 0){
+        return searchAVL_rec(root->right,e);
+    }
+    return root;
+}
+
+_avlTree searchAVL_it(_avlTree root, _element e){
+    int comparison;
+
+    while(root != NULL){
+        comparison = compareElt(e,root->value);
+        if(comparison < 0){
+            root = root->left;
+        }else if (comparison > 0){
+            root = root->right;
+        }else{
+            return root;
+        }
+    }
+    return NULL;
+}
+
+int nbNodesAVL(_avlTree A){
+    if(A == NULL){
+        return 0;
+    }
+    return 1 + nbNodesAVL(A->right) + nbNodesAVL(A->left);
 }
 
 

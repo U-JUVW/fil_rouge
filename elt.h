@@ -34,5 +34,5 @@
 
 char * toString(_element e); 
 _element genElt(void);
-_element duplicateElt(_element); 
-int eltcmp(_element, _element); 
+_element duplicateElt(_element e); 
+int compareElt(_element e1, _element e2); 

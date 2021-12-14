@@ -1,13 +1,5 @@
-#define MAX(a,b) ((a > b) ? a : b)
-#define MIN(a,b) ((a > b) ? b : a)
-
-typedef enum {  
-    DOUBLE_RIGHT = -2,
-    RIGHT = -1,
-    BALANCED = 0,
-    LEFT = 1,
-    DOUBLE_LEFT = 2
-}treeBalance;
+#define MAX(a,b) ((compareElt(a,b) > 0) ? a : b)
+#define MIN(a,b) ((compareElt(a,b) > 0) ? b : a)
 
 typedef struct tNode{
     _element value;
@@ -19,4 +11,6 @@ typedef struct tNode{
 void insertAVL(_avlTree * pA, _element e);
 int heightAVL(_avlTree root);
 void printAVL(_avlTree root, int indent);
-
+int nbNodesAVL(_avlTree A);
+_avlTree searchAVL_rec(_avlTree root, _element e);
+_avlTree searchAVL_it(_avlTree root, _element e);
