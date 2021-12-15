@@ -16,6 +16,7 @@ _list removeFirstNode(_list l);
 void showList_rec(_list l);
 void showList_inv_rec(_list l);
 void freeList_rec(_list l);
+int getLength(_list l);
 
 
 #endif 

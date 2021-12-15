@@ -35,6 +35,15 @@ _listNode * addNode (_element e, _listNode * n) {
 	return pNode;
 }
 
+int getLength(_list l){
+	int length = 0;
+	while(l != NULL){
+		length ++;
+		l = l->pNext;
+	}
+	return length;
+}
+
 void showList(_list l) {
 	// Afficher la liste en commençant par sa tête 
 	// A faire en itératif 
