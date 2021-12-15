@@ -1,5 +1,7 @@
-#define MAX(a,b) ((compareElt(a,b) > 0) ? a : b)
-#define MIN(a,b) ((compareElt(a,b) > 0) ? b : a)
+#define MAXELT(a,b) ((compareElt(a,b) > 0) ? a : b)
+#define MINELT(a,b) ((compareElt(a,b) > 0) ? b : a)
+#define MAX(a,b) ((a>b) ? a : b)
+#define MIN(a,b) ((a>b) ? b : a)
 
 typedef struct tNode{
     _element value;
@@ -14,4 +16,4 @@ void printAVL(_avlTree root, int indent);
 int nbNodesAVL(_avlTree A);
 _avlTree searchAVL_rec(_avlTree root, _element e);
 _avlTree searchAVL_it(_avlTree root, _element e);
-void createDotAVL(const _alvTree root, const char *basename);
+void createDotAVL(const _avlTree root, const char *basename);

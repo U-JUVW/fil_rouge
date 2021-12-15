@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <sys/stat.h>
+#include <string.h>
 
 #include "elt.h"
 #include "avl.h"
@@ -9,6 +11,8 @@ static _avlTree newNodeAVL(_element e);
 static _avlTree rotateRightAVL(_avlTree A);
 static _avlTree rotateLeftAVL(_avlTree A);
 static _avlTree balanceAVL(_avlTree A);
+
+char * outputPath = ".";
 
 
 /**
@@ -325,49 +329,47 @@ void printAVL(_avlTree root, int indent){
         printf("\t");
     }
     //Print the value inside of root
-    printf("%d\n", root->value);
+    printf("%s\n", toString(root->value));
     //Print the left subtree
     printAVL(root->left, indent + 1);
 }
 
 
-static void  genDotAVL(_alvTree root, FILE *fp) {
-    /*
+static void  genDotAVL(_avlTree root, FILE *fp) {
     // Attention : les fonction toString utilisent un buffer alloué comme une variable statique 
     // => elles renvoient toujours la même adresse 
     // => on ne peut pas faire deux appels à toString dans le même printf()
 
-    fprintf(fp, "\t%s",toString(root->value)); 
-    fprintf(fp, " [label = \"{<c> %s | { <g> | <d>}}\"];\n",toString(root->value));
-    if (root->r == NULL && root->l == NULL) {
-        fprintf(fp, "\t%s", toString(root->value)); 
-        fprintf(fp, " [label = \"{<c> %s | { <g> NULL | <d> NULL}}\"];\n", toString(root->value));
+    fprintf(fp, "\"\t%s\"",toString(root->value)); 
+    fprintf(fp, " [label = \"{{<c> %s | %d}| { <g> | <d>}}\"];\n",toString(root->value),root->balance);
+    if (root->right == NULL && root->left == NULL) {
+        fprintf(fp, "\"\t%s\"", toString(root->value)); 
+        fprintf(fp, " [label = \"{{<c> %s | %d}| { <g> NULL | <d> NULL}}\"];\n", toString(root->value),root->balance);
     }
-    else if (root->r == NULL) {
-        fprintf(fp, "\t%s", toString(root->value));
-        fprintf(fp, " [label = \"{<c> %s | { <g> | <d> NULL}}\"];\n", toString(root->value));
+    else if (root->right == NULL) {
+        fprintf(fp, "\"\t%s\"", toString(root->value));
+        fprintf(fp, " [label = \"{{<c> %s | %d}| { <g> | <d> NULL}}\"];\n", toString(root->value),root->balance);
     }
-    else if ( root->l == NULL) {
-        fprintf(fp, "\t%s",toString(root->value));
-        fprintf(fp, " [label = \"{<c> %s | { <g> NULL | <d> }}\"];\n", toString(root->value));
+    else if ( root->left == NULL) {
+        fprintf(fp, "\"\t%s\"",toString(root->value));
+        fprintf(fp, " [label = \"{{<c> %s | %d}{ <g> NULL | <d> }}\"];\n", toString(root->value),root->balance);
     }
     
-    if (root->l) {
-        fprintf(fp, "\t%s",toString(root->value));
+    if (root->left) {
+        fprintf(fp, "\"\t%s\"",toString(root->value));
         fprintf(fp, ":g -> %s;\n", toString(root->left->value));
         genDotAVL(root->left, fp);
     }
 
-    if (root->r) {
-        fprintf(fp, "\t%s",toString(root->value));
+    if (root->right) {
+        fprintf(fp, "\"\t%s\"",toString(root->value));
         fprintf(fp,":d -> %s;\n", toString(root->right->value));
         genDotAVL(root->right, fp);
-    }*/
+    }
 }
 
 
-void createDotAVL(const _alvTree root, const char *basename) {
-    /*
+void createDotAVL(const _avlTree root, const char *basename) {
     static char oldBasename[FILENAME_MAX + 1] = "";
     static unsigned int noVersion = 0;
 
@@ -411,7 +413,9 @@ void createDotAVL(const _alvTree root, const char *basename) {
     sprintf(fnameDot, "%s%s_v%02u.dot", DOSSIER_DOT, basename, noVersion);
     sprintf(fnamePng, "%s%s_v%02u.png", DOSSIER_PNG, basename, noVersion);
 
-    CHECK_IF(fp = fopen(fnameDot, "w"), NULL, "erreur fopen dans saveDotBST"); 
+    //CHECK_IF(fp = fopen(fnameDot, "w"), NULL, "erreur fopen dans saveDotBST"); 
+    fp = fopen(fnameDot, "w");
+    assert(fp!=NULL);
     
     noVersion ++;
     fprintf(fp, "digraph %s {\n", basename);
@@ -444,6 +448,5 @@ void createDotAVL(const _alvTree root, const char *basename) {
     system(cmdLine);
 
     printf("Creation de '%s' et '%s' ... effectuee\n", fnameDot, fnamePng);
-    */
 }
 

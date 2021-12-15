@@ -8,9 +8,14 @@ void testAVLImplem();
 
 int main(int argc, char const *argv[])
 {
-    testAVLImplem();
+    _avlTree A = NULL;
+    insertAVL(&A, "Après-midi");
+    createDotAVL(A, "ArbreA");
+    //testAVLImplem();
     return 0;
 }
+
+/*
 void testAVLImplem(){
     _avlTree root = NULL;
     insertAVL(&root,10);
@@ -47,4 +52,6 @@ void testAVLImplem(){
     printf("Nombre de noeuds : %d\n", nbNodesAVL(root));
     root = searchAVL_it(root,10);
     printAVL(root,0);
+    createDotAVL(root, "test");
 }
+*/
