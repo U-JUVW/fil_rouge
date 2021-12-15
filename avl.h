@@ -1,5 +1,3 @@
-#define MAXELT(a,b) ((compareElt(a,b) > 0) ? a : b)
-#define MINELT(a,b) ((compareElt(a,b) > 0) ? b : a)
 #define MAX(a,b) ((a>b) ? a : b)
 #define MIN(a,b) ((a>b) ? b : a)
 
