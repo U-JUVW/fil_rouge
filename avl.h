@@ -14,3 +14,4 @@ void printAVL(_avlTree root, int indent);
 int nbNodesAVL(_avlTree A);
 _avlTree searchAVL_rec(_avlTree root, _element e);
 _avlTree searchAVL_it(_avlTree root, _element e);
+void createDotAVL(const _alvTree root, const char *basename);

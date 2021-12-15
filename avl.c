@@ -329,3 +329,121 @@ void printAVL(_avlTree root, int indent){
     //Print the left subtree
     printAVL(root->left, indent + 1);
 }
+
+
+static void  genDotAVL(_alvTree root, FILE *fp) {
+    /*
+    // Attention : les fonction toString utilisent un buffer alloué comme une variable statique 
+    // => elles renvoient toujours la même adresse 
+    // => on ne peut pas faire deux appels à toString dans le même printf()
+
+    fprintf(fp, "\t%s",toString(root->value)); 
+    fprintf(fp, " [label = \"{<c> %s | { <g> | <d>}}\"];\n",toString(root->value));
+    if (root->r == NULL && root->l == NULL) {
+        fprintf(fp, "\t%s", toString(root->value)); 
+        fprintf(fp, " [label = \"{<c> %s | { <g> NULL | <d> NULL}}\"];\n", toString(root->value));
+    }
+    else if (root->r == NULL) {
+        fprintf(fp, "\t%s", toString(root->value));
+        fprintf(fp, " [label = \"{<c> %s | { <g> | <d> NULL}}\"];\n", toString(root->value));
+    }
+    else if ( root->l == NULL) {
+        fprintf(fp, "\t%s",toString(root->value));
+        fprintf(fp, " [label = \"{<c> %s | { <g> NULL | <d> }}\"];\n", toString(root->value));
+    }
+    
+    if (root->l) {
+        fprintf(fp, "\t%s",toString(root->value));
+        fprintf(fp, ":g -> %s;\n", toString(root->left->value));
+        genDotAVL(root->left, fp);
+    }
+
+    if (root->r) {
+        fprintf(fp, "\t%s",toString(root->value));
+        fprintf(fp,":d -> %s;\n", toString(root->right->value));
+        genDotAVL(root->right, fp);
+    }*/
+}
+
+
+void createDotAVL(const _alvTree root, const char *basename) {
+    /*
+    static char oldBasename[FILENAME_MAX + 1] = "";
+    static unsigned int noVersion = 0;
+
+    char DOSSIER_DOT[FILENAME_MAX + 1]; 
+    char DOSSIER_PNG[FILENAME_MAX + 1]; 
+
+    char fnameDot [FILENAME_MAX + 1];
+    char fnamePng [FILENAME_MAX + 1];
+    char    cmdLine [2 * FILENAME_MAX + 20];
+    FILE *fp;
+    struct stat sb;
+    
+
+    // Au premier appel, création (si nécessaire) des répertoires
+    // où seront rangés les fichiers .dot et .png générés par cette fonction    
+
+    // il faut créer le répertoire outputPath s'il n'existe pas 
+    if (stat(outputPath, &sb) == 0 && S_ISDIR(sb.st_mode)) {
+    } else {
+        printf("Création du répertoire %s\n", outputPath);
+        mkdir(outputPath, 0777);
+    }
+
+    // il faut créer les répertoires outputPath/png et /dot 
+    sprintf(DOSSIER_DOT, "%s/dot/",outputPath);
+    sprintf(DOSSIER_PNG, "%s/png/",outputPath);
+
+    if (oldBasename[0] == '\0') {
+        mkdir(DOSSIER_DOT,  S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        mkdir(DOSSIER_PNG,  S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+    }
+
+     // S'il y a changement de nom de base alors recommencer à zéro
+     // la numérotation des fichiers 
+
+    if (strcmp(oldBasename, basename) != 0) {
+        noVersion = 0;
+        strcpy(oldBasename, basename); 
+    }
+
+    sprintf(fnameDot, "%s%s_v%02u.dot", DOSSIER_DOT, basename, noVersion);
+    sprintf(fnamePng, "%s%s_v%02u.png", DOSSIER_PNG, basename, noVersion);
+
+    CHECK_IF(fp = fopen(fnameDot, "w"), NULL, "erreur fopen dans saveDotBST"); 
+    
+    noVersion ++;
+    fprintf(fp, "digraph %s {\n", basename);
+    fprintf(fp, 
+        "\tnode [\n"
+            "\t\tfontname  = \"Arial bold\" \n"
+            "\t\tfontsize  = \"14\"\n"
+            "\t\tfontcolor = \"red\"\n"
+            "\t\tstyle     = \"rounded, filled\"\n"
+            "\t\tshape     = \"record\"\n"
+            "\t\tfillcolor = \"grey90\"\n"
+            "\t\tcolor     = \"blue\"\n"
+            "\t\twidth     = \"2\"\n"
+            "\t]\n"
+        "\n"
+        "\tedge [\n"
+            "\t\tcolor     = \"blue\"\n"
+        "\t]\n\n"
+    );
+
+    if (root == NULL)
+        fprintf(fp, "\n");
+    else
+        genDotAVL(root, fp);
+
+    fprintf(fp, "}\n"); 
+    fclose(fp);
+
+    sprintf(cmdLine, "dot -Tpng  %s -o %s", fnameDot, fnamePng);
+    system(cmdLine);
+
+    printf("Creation de '%s' et '%s' ... effectuee\n", fnameDot, fnamePng);
+    */
+}
+
