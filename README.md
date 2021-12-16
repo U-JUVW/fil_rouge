@@ -1,6 +1,2 @@
-A faire (avant début programme 1):
-
-	► Ajouter les fonctions de recherche dans un arbre AVL
-	► Ajouter une fonction retournant le nombre de noeuds d'un arbre AVL
-	► Rendre les fonctions compatibles avec n'importe quel type de _element
-	(pour le moment, seulement fonctionnel pour des nombres)
+/!\ Il y a un problème avec l'algorithme d'insertion d'un élément, ce qui cause le déséquilibre de l'arbre dans certaines situations.
+	→ Cela n'empêche pas de travailler sur les autres programmes (2 et 3). Il suffit de faire comme si elle fonctionnait. Le problème devrait être corrigé dans la soirée du 17/12. 
