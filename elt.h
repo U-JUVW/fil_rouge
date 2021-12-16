@@ -1,12 +1,12 @@
 /////////////////////////////////////////////////////////////////////////
 // CHOISIR ICI CE QUE REPRESENTE LE TYPE _element 
 //#define ELT_CHAR          // un caractère ?
-//#define ELT_INT             // un entier (choix par défaut) ?
+// #define ELT_INT             // un entier (choix par défaut) ?
 #define ELT_STRING        // une chaîne de caractères ?
 //#define ELT_STRUCT        // une structure plus complexe ? 
 /////////////////////////////////////////////////////////////////////////
 
-
+    
 #if ! defined(ELT_CHAR) && ! defined(ELT_INT) && ! defined(ELT_STRING) && ! defined(ELT_STRUCT)
     #define ELT_INT
 #endif
@@ -21,6 +21,7 @@
 
 #ifdef ELT_STRING
     typedef char * _element; 
+    const char *sortstr(char *str);
 #endif
 
 #ifdef ELT_STRUCT

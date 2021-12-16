@@ -108,7 +108,7 @@ static _avlTree rotateLeftAVL(_avlTree A){
     B -> left = A;
 
     //Compute new balancing coefficients
-    A -> balance = initBalA + 1 - MIN(0,initBalB);
+    B-> left -> balance = initBalA + 1 - MIN(0,initBalB);
     B-> balance = initBalB + 1 + MAX(0,B->left->balance);
 
     return B;
@@ -132,9 +132,9 @@ static _avlTree rotateLeftAVL(_avlTree A){
  +===============================================================================================================+
  */
 static _avlTree balanceAVL(_avlTree A){
-    //If the tree tilt to the right...
+    //If the tree tilt to the left...
     if(A->balance > 1){
-        //If the sub tree tilt to the left, perform Left-Right rotation
+        //If the sub tree tilt to the right, perform Left-Right rotation
         if(A-> left->balance < 0){
             A->left = rotateLeftAVL(A->left);
             return rotateRightAVL(A);
@@ -142,9 +142,9 @@ static _avlTree balanceAVL(_avlTree A){
         //else, perform a simple Right rotation                                 
         return rotateRightAVL(A);
     }
-    //If the tree tilt to the left...
+    //If the tree tilt to the right...
     if(A->balance < -1){
-        //If the sub tree tilt to the right, perform Right-Left rotation
+        //If the sub tree tilt to the left, perform Right-Left rotation
         if(A->right->balance > 0){
             A -> right = rotateRightAVL(A->right);
             return rotateLeftAVL(A);
@@ -340,30 +340,33 @@ static void  genDotAVL(_avlTree root, FILE *fp) {
     // => elles renvoient toujours la même adresse 
     // => on ne peut pas faire deux appels à toString dans le même printf()
 
-    fprintf(fp, "\"\t%s\"",toString(root->value)); 
+
+    //printf("Bal de %s = %d\n",toString(root->value), root->balance);
+    fprintf(fp, "\t\"%s\"",toString(root->value));
     fprintf(fp, " [label = \"{{<c> %s | %d}| { <g> | <d>}}\"];\n",toString(root->value),root->balance);
     if (root->right == NULL && root->left == NULL) {
-        fprintf(fp, "\"\t%s\"", toString(root->value)); 
+        fprintf(fp, "\t\"%s\"", toString(root->value)); 
         fprintf(fp, " [label = \"{{<c> %s | %d}| { <g> NULL | <d> NULL}}\"];\n", toString(root->value),root->balance);
     }
     else if (root->right == NULL) {
-        fprintf(fp, "\"\t%s\"", toString(root->value));
+        fprintf(fp, "\t\"%s\"", toString(root->value));
         fprintf(fp, " [label = \"{{<c> %s | %d}| { <g> | <d> NULL}}\"];\n", toString(root->value),root->balance);
     }
     else if ( root->left == NULL) {
-        fprintf(fp, "\"\t%s\"",toString(root->value));
-        fprintf(fp, " [label = \"{{<c> %s | %d}{ <g> NULL | <d> }}\"];\n", toString(root->value),root->balance);
+        fprintf(fp, "\t\"%s\"",toString(root->value));
+        fprintf(fp, " [label = \"{{<c> %s | %d}|{ <g> NULL | <d> }}\"];\n", toString(root->value),root->balance);
+    
     }
     
     if (root->left) {
-        fprintf(fp, "\"\t%s\"",toString(root->value));
-        fprintf(fp, ":g -> %s;\n", toString(root->left->value));
+        fprintf(fp, "\t\"%s\"",toString(root->value));
+        fprintf(fp, ":g -> \"%s\";\n", toString(root->left->value));
         genDotAVL(root->left, fp);
     }
 
     if (root->right) {
-        fprintf(fp, "\"\t%s\"",toString(root->value));
-        fprintf(fp,":d -> %s;\n", toString(root->right->value));
+        fprintf(fp, "\t\"%s\"",toString(root->value));
+        fprintf(fp,":d -> \"%s\";\n", toString(root->right->value));
         genDotAVL(root->right, fp);
     }
 }
