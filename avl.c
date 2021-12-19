@@ -560,6 +560,6 @@ void createDotAVL(const _avlTree root, const char *basename) {
     sprintf(cmdLine, "dot -Tpng  %s -o %s", fnameDot, fnamePng);
     system(cmdLine);
 
-    printf("Creation de '%s' et '%s' ... effectuee\n", fnameDot, fnamePng);
+    //printf("Creation de '%s' et '%s' ... effectuee\n", fnameDot, fnamePng);
 }
 

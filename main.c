@@ -25,6 +25,7 @@ int main(int argc, char const *argv[])
 
 //Program used for the first exercice
 void program1(int nbElements){
+    printf("Program 1 : Adding names to AVL tree and output png after each insertion ...\n");
     _list L = NULL; 
     _avlTree root=NULL;
     //Create a list containing the nbElements first names of the file FILE_P1
