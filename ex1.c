@@ -4,22 +4,22 @@
 #include "list.h"
 
 
-_list readFile (char *nom, int nbElements)
+_list readFile (char *path, int nbElements)
 {
-	char chaine[30];
+	char word[100];
 	_list L = NULL;
-	FILE *fichier=NULL;
-	fichier=fopen(nom,"r+");
+	FILE *file=NULL;
 
+	file=fopen(path,"r+");
 	if (nbElements==0){
-		while (fgets(chaine, 30, fichier)!=NULL){
-			L=addNode (strdup(chaine), L);
+		while (fgets(word, 100, file)!=NULL){
+			L=addNode (strdup(word), L);
 		}
 	}else{
 		for (int i = 0; i<nbElements; i++){
-			fgets(chaine, 30, fichier);
-			L=addNode (strdup(chaine), L);
-			}
+			fgets(word, 100, file);
+			L=addNode (strdup(word), L);
+		}
 	}
 	return L;
 }

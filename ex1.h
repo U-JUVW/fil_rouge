@@ -1,3 +1,3 @@
 #include "list.h"
 
-_list readFile (char *nom,int nbElements);
+_list readFile (char *path,int nbElements);
