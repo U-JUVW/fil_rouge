@@ -7,11 +7,16 @@
 #include "elt.h"
 #include "avl.h"
 
+#define GEN_PNG 1       //Used to create or not PNG files for each insertion in the AVL tree
+
+
+//Prototypes of static functions
 static _avlTree newNodeAVL(_element e);
 static _avlTree rotateRightAVL(_avlTree A);
 static _avlTree rotateLeftAVL(_avlTree A);
 static _avlTree balanceAVL(_avlTree A);
 
+//Output path for PNG & DOT files
 char * outputPath = ".";
 
 
@@ -63,7 +68,6 @@ static _avlTree newNodeAVL(_element e){
  */
 static _avlTree rotateRightAVL(_avlTree A){
     _avlTree B = A -> left;
-
     //Keep in memory the balance coefficients before rotation (used to compute new balance coefficients)
     int initBalB = B -> balance;
     int initBalA = A -> balance;    
@@ -98,7 +102,6 @@ static _avlTree rotateRightAVL(_avlTree A){
  */
 static _avlTree rotateLeftAVL(_avlTree A){
     _avlTree B = A -> right;
-
     //Keep in memory the balancing coefficients before rotation 
     int initBalB = B -> balance;
     int initBalA = A -> balance;
@@ -126,7 +129,7 @@ static _avlTree rotateLeftAVL(_avlTree A){
  ||     _avlTree        A           ->          Pointer to the root of the AVL tree to be rotated               ||
  ||                                                                                                             ||
  || OUTPUT :                                                                                                    ||
- ||     _avlTree        A           ->          Pointer to the root of the AVL tree after balancing             ||
+ ||     _avlTree                    ->          Pointer to the root of the AVL tree after balancing             ||
  ||                                                                                                             ||
  |+-------------------------------------------------------------------------------------------------------------+|
  +===============================================================================================================+
@@ -138,7 +141,7 @@ static _avlTree balanceAVL(_avlTree A){
         if(A-> left->balance < 0){
             A->left = rotateLeftAVL(A->left);
             return rotateRightAVL(A);
-        }       
+        }     
         //else, perform a simple Right rotation                                 
         return rotateRightAVL(A);
     }
@@ -148,7 +151,7 @@ static _avlTree balanceAVL(_avlTree A){
         if(A->right->balance > 0){
             A -> right = rotateRightAVL(A->right);
             return rotateLeftAVL(A);
-        }               
+        }          
         //else, perform simple Left rotation        
         return rotateLeftAVL(A);
     }
@@ -188,6 +191,9 @@ void insertAVL(_avlTree *pA, _element e){
     //Case of an empty tree
     if(*pA == NULL){
         *pA = newNodeAVL(e);
+        if(GEN_PNG){
+            createDotAVL(*pA,"Tree");
+        }
         return;
     }
 
@@ -220,50 +226,126 @@ void insertAVL(_avlTree *pA, _element e){
 
     //Reverse the path and balance the subtrees
     while(top >= 0){
-        (*path[top])->balance += sides[top];            //Correct balancing coefficients according to the path followed
-        *path[top] = balanceAVL(*path[top]);            //Balance current subtree
+        (*path[top])->balance += sides[top];        //Correct balancing coefficients according to the path followed
+        *path[top] = balanceAVL(*path[top]);        //Balance current subtree
+        if((*path[top])->balance == 0){             //If the subtree balancing coefficient is zero, there is no change for the parent nodes
+            break;
+        }
         top --;
     }
+
     //Reset pointer to the original tree
     pA = path[0];
+    if(GEN_PNG){
+        createDotAVL(*pA,"Tree");
+    }
 }
 
+/**
+ +===============================================================================================================+
+ |+-------------------------------------------------------------------------------------------------------------+|
+ ||                                                                                                             ||
+ || FUNCTION :          _avlTree searchAVL_rec                                                                  ||
+ ||                                                                                                             ||
+ || DESCRIPTION :       Recursively searches for an element in an AVL tree. If the element is found, returns a  ||
+ ||                     pointer to the node containing the element.                                             ||
+ ||                                                                                                             ||
+ || PARAMETERS :                                                                                                ||
+ ||     _avlTree        root        ->          Pointer to the root of the AVL tree in which the element        ||
+ ||                                             will be searched                                                ||
+ ||     _element        e           ->          Element to be searched                                          ||
+ ||                                                                                                             ||
+ || OUTPUT :                                                                                                    ||
+ ||     _avlTree                    ->          Pointer to the node which contains the searched element.        ||
+ ||                                             NULL if the element is not in the AVL tree.                     ||
+ ||                                                                                                             ||
+ |+-------------------------------------------------------------------------------------------------------------+|
+ +===============================================================================================================+
+ */
 _avlTree searchAVL_rec(_avlTree root, _element e){
     int comparison;
 
+    //Case of an empty tree
     if(root == NULL){
         return NULL;
     }
 
     comparison = compareElt(e,root->value);
+    //If e is smaller than the current node element
     if(comparison < 0){
-        return(searchAVL_rec (root->left, e));
-    }else if(comparison > 0){
-        return searchAVL_rec(root->right,e);
+        return(searchAVL_rec (root->left, e));          //Search within the left subtree
     }
-    return root;
+    //Else, if e is greater than the current node element
+    else if(comparison > 0){                           
+        return searchAVL_rec(root->right,e);            //Search within the right subtree
+    }
+    //Otherwise, e is equal to the current node
+    return root;    
 }
 
+/**
+ +===============================================================================================================+
+ |+-------------------------------------------------------------------------------------------------------------+|
+ ||                                                                                                             ||
+ || FUNCTION :          _avlTree searchAVL_rec                                                                  ||
+ ||                                                                                                             ||
+ || DESCRIPTION :       Iteratively searches for an element in an AVL tree. If the element is found, returns a  ||
+ ||                     pointer to the node containing the element.                                             ||
+ ||                                                                                                             ||
+ || PARAMETERS :                                                                                                ||
+ ||     _avlTree        root        ->          Pointer to the root of the AVL tree in which the element        ||
+ ||                                             will be searched                                                ||
+ ||     _element        e           ->          Element to be searched                                          ||
+ ||                                                                                                             ||
+ || OUTPUT :                                                                                                    ||
+ ||     _avlTree                    ->          Pointer to the node which contains the searched element.        ||
+ ||                                             NULL if the element is not in the AVL tree.                     ||
+ ||                                                                                                             ||
+ |+-------------------------------------------------------------------------------------------------------------+|
+ +===============================================================================================================+
+ */
 _avlTree searchAVL_it(_avlTree root, _element e){
     int comparison;
 
     while(root != NULL){
         comparison = compareElt(e,root->value);
+        //If e is smaller than the current node element, check the left child
         if(comparison < 0){
             root = root->left;
-        }else if (comparison > 0){
-            root = root->right;
-        }else{
-            return root;
         }
+        //Else if e is greater than the current node element, check the right child
+        else if (comparison > 0){
+            root = root->right;
+        }
+        //Otherwise, e is equal to the current node
+        return root;        
     }
     return NULL;
 }
 
+/**
+ +===============================================================================================================+
+ |+-------------------------------------------------------------------------------------------------------------+|
+ ||                                                                                                             ||
+ || FUNCTION :          int nbNodesAVL                                                                          ||
+ ||                                                                                                             ||
+ || DESCRIPTION :       Recursively computes the number of nodes of a given tree                                ||
+ ||                                                                                                             ||
+ || PARAMETERS :                                                                                                ||
+ ||     _avlTree        A           ->          AVL tree whose number of node is to be calculated               ||
+ ||                                                                                                             ||
+ || OUTPUT :                                                                                                    ||
+ ||     int                         ->          Number of node of the AVL tree                                  ||  
+ ||                                                                                                             ||
+ |+-------------------------------------------------------------------------------------------------------------+|
+ +===============================================================================================================+
+ */
 int nbNodesAVL(_avlTree A){
+    //Case of an empty tree
     if(A == NULL){
         return 0;
     }
+    //Return 1 plus the number of nodes in child trees
     return 1 + nbNodesAVL(A->right) + nbNodesAVL(A->left);
 }
 
@@ -334,14 +416,25 @@ void printAVL(_avlTree root, int indent){
     printAVL(root->left, indent + 1);
 }
 
-
+/**
+ +===============================================================================================================+
+ |+-------------------------------------------------------------------------------------------------------------+|
+ ||                                                                                                             ||
+ || FUNCTION :          static void genDotAVL                                                                   ||
+ ||                                                                                                             ||
+ || DESCRIPTION :       Writes the content of an AVL tree in a dot file                                         ||
+ ||                                                                                                             ||
+ || PARAMETERS :                                                                                                ||
+ ||     _avlTree        root        ->          AVL tree whose content is to be written in dot                  ||
+ ||     FILE *          fp          ->          Pointer to the dot file                                         ||
+ ||                                                                                                             ||
+ || OUTPUT :            NONE                                                                                    ||  
+ ||                                                                                                             ||
+ |+-------------------------------------------------------------------------------------------------------------+|
+ +===============================================================================================================+
+ */
 static void  genDotAVL(_avlTree root, FILE *fp) {
-    // Attention : les fonction toString utilisent un buffer alloué comme une variable statique 
-    // => elles renvoient toujours la même adresse 
-    // => on ne peut pas faire deux appels à toString dans le même printf()
 
-
-    //printf("Bal de %s = %d\n",toString(root->value), root->balance);
     fprintf(fp, "\t\"%s\"",toString(root->value));
     fprintf(fp, " [label = \"{{<c> %s | %d}| { <g> | <d>}}\"];\n",toString(root->value),root->balance);
     if (root->right == NULL && root->left == NULL) {
@@ -371,7 +464,24 @@ static void  genDotAVL(_avlTree root, FILE *fp) {
     }
 }
 
-
+/**
+ +===============================================================================================================+
+ |+-------------------------------------------------------------------------------------------------------------+|
+ ||                                                                                                             ||
+ || FUNCTION :          static void genDotAVL                                                                   ||
+ ||                                                                                                             ||
+ || DESCRIPTION :       Generates the whole dot file to represent an AVL tree and print the result in a PNG file||
+ ||                                                                                                             ||
+ || PARAMETERS :                                                                                                ||
+ ||     _avlTree        root        ->          AVL tree whose content is to be written in dot                  ||
+ ||     char *          basename    ->          Base name of the files. A number wil be added if several files  ||
+ ||                                             with the same name are generated during the execution.          ||
+ ||                                                                                                             ||
+ || OUTPUT :            NONE                                                                                    ||  
+ ||                                                                                                             ||
+ |+-------------------------------------------------------------------------------------------------------------+|
+ +===============================================================================================================+
+ */
 void createDotAVL(const _avlTree root, const char *basename) {
     static char oldBasename[FILENAME_MAX + 1] = "";
     static unsigned int noVersion = 0;
