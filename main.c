@@ -17,9 +17,7 @@ int main(int argc, char const *argv[])
 
     int n;
     if(argc > 1){
-        printf("A\n");
         n = atoi(argv[1]);
-        printf("B\n");
         program1(n);
     }
     return 0;
