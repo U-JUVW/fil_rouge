@@ -241,6 +241,7 @@ void insertAVL(_avlTree *pA, _element e){
     if(GEN_PNG){
         createDotAVL(*pA,"Tree");
     }
+    free(sides);
 }
 
 /**
