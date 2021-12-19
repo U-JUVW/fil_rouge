@@ -194,6 +194,7 @@ void insertAVL(_avlTree *pA, _element e){
         if(GEN_PNG){
             createDotAVL(*pA,"Tree");
         }
+        free(sides);
         return;
     }
 
@@ -218,6 +219,7 @@ void insertAVL(_avlTree *pA, _element e){
             continue;
         }
         //Else, the element is equal to the value in the current node. Thus return 0 (duplicate values are not allowed).
+        free(sides);
         return;
     }
 
