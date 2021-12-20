@@ -21,7 +21,7 @@
 
 #ifdef ELT_STRING
     typedef char * _element; 
-    const char *sortstr(char *str);
+    char *sortstr(char *str);
 #endif
 
 #ifdef ELT_STRUCT
@@ -31,7 +31,6 @@
     } _element; 
 
 #endif
-
 
 char * toString(_element e); 
 _element genElt(void);

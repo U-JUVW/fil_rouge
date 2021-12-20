@@ -316,7 +316,6 @@ _avlTree searchAVL_it(_avlTree root, _element e){
         }
         //Otherwise, e is equal to the current node
         else{
-            printf("Found : %s\n", root->value);
             return root;       
         } 
     }

@@ -12,7 +12,7 @@
     char * toString(_element e){
         return e;
     }
-    const char* sortstr (char s[50])
+    char* sortstr (char s[50])
     {
         char *str, ch;
         
