@@ -183,7 +183,7 @@ _avlTree insertAVL(_avlTree *pA, _element e){
     int top = -1;
 
     //Create an int array to store the potential changes of balancing coefficients
-    int *sides =  malloc(sizeof(int) * (height));
+    int *sides =  malloc(sizeof(int) * (height + 1));
 
     int comparison;
 
@@ -222,6 +222,7 @@ _avlTree insertAVL(_avlTree *pA, _element e){
 
     //Add the element in the reached leaf
     *pA = newNodeAVL(e);
+    _avlTree temp = *pA;
 
     //Reverse the path and balance the subtrees
     while(top >= 0){
@@ -232,7 +233,6 @@ _avlTree insertAVL(_avlTree *pA, _element e){
         }
         top --;
     }
-    _avlTree temp = *pA;
     //Reset pointer to the original tree
     pA = path[0];
     free(sides);

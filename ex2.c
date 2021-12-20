@@ -16,10 +16,8 @@ void program2(char * path, int nbElements){
 	//Ajout des elements dans l'arbre
 	while(L != NULL){
 		char * str = sortstr(L->data);
-		//printf("\tSort str : %s\n",str);
 		_avlTree temp = insertAVL(&root, sortstr(L->data));
 		temp->words = addNode(L->data, temp->words);
-		createDotAVL(root, "test");
 		L = L->pNext;
 
 	}
