@@ -32,7 +32,7 @@
             }
         }
         
-        return str;
+        return strdup(str);
     }
 #elif defined(ELT_INT)
     _element duplicateElt(_element e){

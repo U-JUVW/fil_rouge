@@ -40,6 +40,7 @@ static _avlTree newNodeAVL(_element e){
     assert(pNewTree != NULL);                           //Terminate the program if the memory allocation failed
 
     pNewTree -> value = duplicateElt(e);                //Duplicate the element according to its type (cf elt.c)
+    pNewTree -> words = NULL;
     pNewTree -> left = NULL;
     pNewTree -> right = NULL;
     pNewTree -> balance = 0;
@@ -159,22 +160,23 @@ static _avlTree balanceAVL(_avlTree A){
  +===============================================================================================================+
  |+-------------------------------------------------------------------------------------------------------------+|
  ||                                                                                                             ||
- || FUNCTION :          void insertAVL                                                                          ||
+ || FUNCTION :          avlTree insertAVL                                                                       ||
  ||                                                                                                             ||
  || DESCRIPTION :       Inserts a node in an AVL tree, balances the AVL tree and check if height icreased.      ||
- ||                     Modifies the AVL tree pointed by the first parameter                                    ||
+ ||                     Modifies the AVL tree pointed by the first parameter. Returns a pointer to the new node ||
  ||                                                                                                             ||
  || PARAMETERS :                                                                                                ||
  ||     _avlTree *      pA          ->          Pointer to the pointer to the root of the AVL tree              ||
  ||                                             to be rotated                                                   ||
  ||     _element        e           ->          Element to be inserted in the AVL tree                          ||
  ||                                                                                                             ||
- || OUTPUT :            NONE                                                                                    ||
+ || OUTPUT :                                                                                                    ||
+ ||     _avlTree                    ->          Pointer to the added node                                       ||
  ||                                                                                                             ||
  |+-------------------------------------------------------------------------------------------------------------+|
  +===============================================================================================================+
  */
-void insertAVL(_avlTree *pA, _element e){
+_avlTree insertAVL(_avlTree *pA, _element e){
     const int height = heightAVL(*pA);
     //Create a stack that will contain the path followed to add the node
     _avlTree *path[height];
@@ -189,7 +191,7 @@ void insertAVL(_avlTree *pA, _element e){
     if(*pA == NULL){
         *pA = newNodeAVL(e);
         free(sides);
-        return;
+        return *pA;
     }
 
     //While leaf are not reached
@@ -213,8 +215,9 @@ void insertAVL(_avlTree *pA, _element e){
             continue;
         }
         //Else, the element is equal to the value in the current node. Thus return 0 (duplicate values are not allowed).
+        
         free(sides);
-        return;
+        return *pA;
     }
 
     //Add the element in the reached leaf
@@ -229,10 +232,11 @@ void insertAVL(_avlTree *pA, _element e){
         }
         top --;
     }
-
+    _avlTree temp = *pA;
     //Reset pointer to the original tree
     pA = path[0];
     free(sides);
+    return temp; 
 }
 
 /**
