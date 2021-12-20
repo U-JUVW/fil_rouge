@@ -304,7 +304,6 @@ _avlTree searchAVL_rec(_avlTree root, _element e){
  */
 _avlTree searchAVL_it(_avlTree root, _element e){
     int comparison;
-
     while(root != NULL){
         comparison = compareElt(e,root->value);
         //If e is smaller than the current node element, check the left child
@@ -316,7 +315,10 @@ _avlTree searchAVL_it(_avlTree root, _element e){
             root = root->right;
         }
         //Otherwise, e is equal to the current node
-        return root;        
+        else{
+            printf("Found : %s\n", root->value);
+            return root;       
+        } 
     }
     return NULL;
 }
