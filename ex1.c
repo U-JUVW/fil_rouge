@@ -32,6 +32,8 @@ _list readFile (char *path, int nbElements)
 	file=fopen(path,"r+");
 	if (nbElements==0){
 		while (fgets(word, 100, file)!=NULL){
+			word[strcspn(word, "\n")] = 0;
+			word[strcspn(word, "\r")] = 0;
 			L=addNode (strdup(word), L);
 		}
 	}else{
