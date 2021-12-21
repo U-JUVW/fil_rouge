@@ -1,10 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "avl.h"
-#include "elt.h"
-#include "list.h"
 #include "ex1.h"
 
 //Core function for the first exercice
