@@ -1,18 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <math.h>
-
-#include "list.h"
-#include "ex1.h"
 #include "ex2.h"
 
-void program2(char * path, int nbElements){
-	_list L = NULL;
+void program2(char * path){
 	_avlTree root = NULL;
     int length;
-    int nbWords = 0;
+    int nbWords;
     int nbNodes;
     int hMin;
     double timeExec;
@@ -21,16 +12,7 @@ void program2(char * path, int nbElements){
     int boolean = 1;
 
 	//Lecture du fichier
-	L = readFile(path, nbElements);
-    printf("Ajout des mots dans l'arbre\n");
-	//Ajout des elements dans l'arbre
-	while(L != NULL){
-        nbWords ++;
-		_avlTree temp = insertAVL(&root, sortstr(L->data));
-		temp->words = addNode(L->data, temp->words);
-		L = L->pNext;
-
-	}
+	nbWords = getAnagramTree(path, &root);
     end = clock();
 	//Calcul des caractéristiques de l'arbre
     timeExec = (double) (end - begin) / CLOCKS_PER_SEC;
@@ -53,6 +35,21 @@ void program2(char * path, int nbElements){
         //condition de sortie -> boolean = 0;
         getAnagram(input, root);
     }
+}
+
+int getAnagramTree(char * path, _avlTree * pRoot){
+    _list L = NULL;
+    int nbWords = 0;
+    L = readFile(path, 0);
+    printf("Ajout des mots dans l'arbre\n");
+    //Ajout des elements dans l'arbre
+    while(L != NULL){
+        nbWords ++;
+        _avlTree temp = insertAVL(pRoot, sortstr(L->data));
+        temp->words = addNode(L->data, temp->words);
+        L = L->pNext;
+    }
+    return nbWords;
 }
 
 void printStats(int length, int nbWords, double timeExec, int nbNodes, int hMin){    

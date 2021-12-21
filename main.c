@@ -24,11 +24,7 @@ int main(int argc, char const *argv[])
             program1(strdup(argv[2]), atoi(argv[3]));
             break;
         case 2:
-            if(argc == 3){
-                program2(strdup(argv[2]), 0);
-                break;
-            }
-            program2(strdup(argv[2]), atoi(argv[3]));
+            program2(strdup(argv[2]));
             break;
         case 3:
             printf("Pas de programme 3 pour l'instant ! \n");
