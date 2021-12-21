@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ex1.h"
 #include "ex2.h"
 
 int main(int argc, char const *argv[])

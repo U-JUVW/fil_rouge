@@ -54,7 +54,7 @@ void showList(_list l) {
 	}
 
 	while(l != NULL) {
-		printf("%s ", toString(l->data));
+		printf("%s ; ", toString(l->data));
 		l = l->pNext; 
 	}
 }

@@ -22,10 +22,11 @@ void program2(char * path){
     printStats(length, nbWords, timeExec, nbNodes, hMin);
 
 	//scanf pour la recherche dans l'abre
-
+    printf("");
     while(1){
         char input[30];
-        printf("Rechercher un anagramme ?\n0 : NON | 1 : OUI\n");
+        printf("+---------------------------+\n");
+        printf("| Rechercher un anagramme ? |\n|   0 : NON   |   1 : OUI   |\n+---------------------------+\n ► ");
         scanf("%d",&boolean);
         if(boolean == 0){
             break;
@@ -41,7 +42,7 @@ int getAnagramTree(char * path, _avlTree * pRoot){
     _list L = NULL;
     int nbWords = 0;
     L = readFile(path, 0);
-    printf("Ajout des mots dans l'arbre\n");
+    printf("Ajout des mots dans l'arbre ...\n");
     //Ajout des elements dans l'arbre
     while(L != NULL){
         nbWords ++;
@@ -71,14 +72,15 @@ void getAnagram(char * input, _avlTree root){
     _avlTree pNode = searchAVL_it(root, key);
     end = clock();    
     timeExec = (double) (end - begin) / CLOCKS_PER_SEC;
+    depth = heightAVL(root) - heightAVL(pNode);
 
     if(pNode == NULL){
-        printf("Ce mot ne figure pas dans le dictionnaire\n");
+        printf("\nCe mot ne figure pas dans le dictionnaire\n");
         return;
     }
+    printf("\t| Liste des anagrammes : ");
     showList(pNode->words);
     printf("\n");
-    depth = heightAVL(root) - heightAVL(pNode);
-    printf("Profondeur du noeud : %d\n",depth);
-    printf("Temps de recherche : %fs\n",timeExec);
+    printf("\t| Profondeur du noeud : %d\n",depth);
+    printf("\t| Temps de recherche : %fs\n",timeExec);
 }
