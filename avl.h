@@ -12,6 +12,14 @@ typedef struct tNode{
     struct tNode* right;
 }_avlNode, *_avlTree;
 
+typedef struct nodeAVL {
+    _avlTree data;
+    struct nodeAVL *pNext;
+} _listAVLtreeNode, * _listAVLtree;
+
+_listAVLtree addNodeAVL(_avlTree e, _listAVLtree n);
+
+
 _avlTree insertAVL(_avlTree * pA, _element e);
 int heightAVL(_avlTree root);
 void printAVL(_avlTree root, int indent);

@@ -8,6 +8,7 @@ typedef struct node {
 	struct node *pNext;
 } _listNode, * _list;
 
+
 _list addNode (_element e, _list n);
 void showList(_list l);
 void freeList(_list l);

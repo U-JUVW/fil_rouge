@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ex2.h"
+#include "ex3.h"
 
 int main(int argc, char const *argv[])
 {
@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
             program2(strdup(argv[2]));
             break;
         case 3:
-            printf("Pas de programme 3 pour l'instant ! \n");
+            program3(strdup(argv[2]));
             break;
         default:
             if(argc == 3){

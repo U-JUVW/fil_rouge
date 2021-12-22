@@ -405,6 +405,8 @@ void printAVL(_avlTree root, int indent){
     }
     //Print the righ subtree
     printAVL(root->right, indent + 1);
+
+
     //Indent before printing the element
     for(int i = 0; i < indent; i++){
         printf("\t");
@@ -412,6 +414,8 @@ void printAVL(_avlTree root, int indent){
     //Print the value inside of root
     printf("%s\n", toString(root->value));
     //Print the left subtree
+
+
     printAVL(root->left, indent + 1);
 }
 
@@ -560,4 +564,15 @@ void createDotAVL(const _avlTree root, const char *basename) {
     system(cmdLine);
 
     //printf("Creation de '%s' et '%s' ... effectuee\n", fnameDot, fnamePng);
+}
+
+
+// Créer une maille pour une liste d'arbre AVL et la remplit
+_listAVLtree addNodeAVL(_avlTree e, _listAVLtree n) {
+    _listAVLtree pNode;
+    pNode = malloc(sizeof(_listAVLtreeNode));
+    assert(pNode != NULL);
+    pNode -> data = e;
+    pNode->pNext = n; 
+    return pNode;
 }
