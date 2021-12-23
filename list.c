@@ -28,8 +28,8 @@ _listNode * addNode (_element e, _listNode * n) {
 	// Créer une maille (node), la remplir 
 	// et l'accrocher en tête d'une liste existante (ou vide)
 	// Renvoyer la nouvelle tête
-
 	_listNode * pNode; 
+	
 	pNode = newNode(e); 
 	pNode->pNext = n; 
 	return pNode;

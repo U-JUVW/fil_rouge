@@ -568,11 +568,61 @@ void createDotAVL(const _avlTree root, const char *basename) {
 
 
 // Créer une maille pour une liste d'arbre AVL et la remplit
-_listAVLtree addNodeAVL(_avlTree e, _listAVLtree n) {
+_listAVLtree addNodeAVL(_avlTree tree, _listAVLtree list) {
     _listAVLtree pNode;
+    _listAVLtree pTemp;
+    _listAVLtree previous = NULL;
     pNode = malloc(sizeof(_listAVLtreeNode));
     assert(pNode != NULL);
-    pNode -> data = e;
-    pNode->pNext = n; 
-    return pNode;
+
+    //Cas d'une liste vide
+    if(list == NULL){
+        pNode -> data = tree;
+        pNode->pNext = NULL; 
+        return pNode;
+    }
+    //Insertion en tete de liste
+    if(getLength(list->data->words) <= getLength(tree->words)){
+        pNode -> data = tree;
+        pNode -> pNext = list;
+        return pNode;
+    }
+    pTemp = list;
+
+/*
+    while(list != NULL){
+        previous = list;
+        if(getLength(list->data->words) > getLength(tree->words)){
+            list = list->pNext;
+            continue;
+        }else{
+            //Insertion
+            //getLength(list->data->words) <= getLength(tree->words)
+            printf("Insertion centre \n");
+            pNode -> data = tree;
+            pNode -> pNext = list;
+            previous -> pNext = pNode;
+            return pTemp;
+        }
+    }
+*/
+    //Tant qu'il reste un élément suivant dans la liste et que > on itère
+    while(list->pNext != NULL && getLength(list->pNext->data->words) > getLength(tree->words)){
+        list = list->pNext;
+    }
+    // Soit <=
+    // Soit list->pNext == NULL
+    pNode -> data = tree;
+    pNode -> pNext = list -> pNext;
+    list->pNext = pNode;
+    return pTemp;
+/*
+    //Cas où on arrive à la fin de la liste chainée
+    printf("Insertion queue\n");
+    pNode -> data = tree;
+    pNode -> pNext = NULL;
+    previous -> pNext = pNode;
+    return pTemp;
+*/
+    
 }
