@@ -1,18 +1,11 @@
-/////////////////////////////////////////////////////////////////////////
-// CHOISIR ICI CE QUE REPRESENTE LE TYPE _element 
-//#define ELT_CHAR          // un caractère ?
-// #define ELT_INT             // un entier (choix par défaut) ?
-#define ELT_STRING        // une chaîne de caractères ?
-//#define ELT_STRUCT        // une structure plus complexe ? 
-/////////////////////////////////////////////////////////////////////////
+//Defining the type of _element and the prototypes of the functions
+//ELT_INT was used for testing purpose
 
+//#define ELT_INT
+#define ELT_STRING      
     
-#if ! defined(ELT_CHAR) && ! defined(ELT_INT) && ! defined(ELT_STRING) && ! defined(ELT_STRUCT)
-    #define ELT_INT
-#endif
-
-#ifdef ELT_CHAR
-    typedef char _element;
+#if !defined(ELT_INT) && !defined(ELT_STRING)
+    #define ELT_STRING
 #endif
 
 #ifdef ELT_INT
@@ -24,14 +17,7 @@
     char *sortstr(char *str);
 #endif
 
-#ifdef ELT_STRUCT
-    typedef struct {
-        int * t; 
-        int size;   
-    } _element; 
-
-#endif
-
+//Prototypes of functions used for both types
 char * toString(_element e); 
 _element genElt(void);
 _element duplicateElt(_element e); 

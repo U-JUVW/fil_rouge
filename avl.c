@@ -12,6 +12,7 @@ static _avlTree newNodeAVL(_element e);
 static _avlTree rotateRightAVL(_avlTree A);
 static _avlTree rotateLeftAVL(_avlTree A);
 static _avlTree balanceAVL(_avlTree A);
+static void genDotAVL(_avlTree root, FILE *fp);
 
 //Output path for PNG & DOT files
 char * outputPath = ".";
@@ -436,6 +437,7 @@ void printAVL(_avlTree root, int indent){
  |+-------------------------------------------------------------------------------------------------------------+|
  +===============================================================================================================+
  */
+//cf TD n°4
 static void  genDotAVL(_avlTree root, FILE *fp) {
 
     fprintf(fp, "\t\"%s\"",toString(root->value));
@@ -485,6 +487,7 @@ static void  genDotAVL(_avlTree root, FILE *fp) {
  |+-------------------------------------------------------------------------------------------------------------+|
  +===============================================================================================================+
  */
+//cf TD n°4
 void createDotAVL(const _avlTree root, const char *basename) {
     static char oldBasename[FILENAME_MAX + 1] = "";
     static unsigned int noVersion = 0;
@@ -567,62 +570,55 @@ void createDotAVL(const _avlTree root, const char *basename) {
 }
 
 
-// Créer une maille pour une liste d'arbre AVL et la remplit
-_listAVLtree addNodeAVL(_avlTree tree, _listAVLtree list) {
-    _listAVLtree pNode;
-    _listAVLtree pTemp;
-    _listAVLtree previous = NULL;
-    pNode = malloc(sizeof(_listAVLtreeNode));
-    assert(pNode != NULL);
+/**
+ +===============================================================================================================+
+ |+-------------------------------------------------------------------------------------------------------------+|
+ ||                                                                                                             ||
+ || FUNCTION :          _listAVLtree addNodeAVLList                                                             ||
+ ||                                                                                                             ||
+ || DESCRIPTION :       Add a node in a list of AVL tree sorted in descending order by length of the angram list||
+ ||                                                                                                             ||
+ || PARAMETERS :                                                                                                ||
+ ||     _avlTree        tree        ->          AVL tree that will be added in the linked list                  ||
+ ||     _listAVLtree    list        ->          Linked list in which the AVL tree will be added                 ||
+ ||                                                                                                             ||
+ || OUTPUT :                                                                                                    ||
+ ||     _listAVLtree                ->          Pointer to the new first node of the linked list                ||
+ ||                                                                                                             ||
+ |+-------------------------------------------------------------------------------------------------------------+|
+ +===============================================================================================================+
+ */
+_listAVLtree addNodeAVLList(_avlTree tree, _listAVLtree list) {
+    _listAVLtree pNewNode, pFirstNode;
 
-    //Cas d'une liste vide
+    pNewNode = malloc(sizeof(_listAVLtreeNode));
+    assert(pNewNode != NULL);
+
+    //Add the tree in the linked list node
+    pNewNode -> data = tree;
+
+    //Case of an empty list
     if(list == NULL){
-        pNode -> data = tree;
-        pNode->pNext = NULL; 
-        return pNode;
+        pNewNode->pNext = NULL; 
+        return pNewNode;
     }
-    //Insertion en tete de liste
-    if(getLength(list->data->words) <= getLength(tree->words)){
-        pNode -> data = tree;
-        pNode -> pNext = list;
-        return pNode;
-    }
-    pTemp = list;
 
-/*
-    while(list != NULL){
-        previous = list;
-        if(getLength(list->data->words) > getLength(tree->words)){
-            list = list->pNext;
-            continue;
-        }else{
-            //Insertion
-            //getLength(list->data->words) <= getLength(tree->words)
-            printf("Insertion centre \n");
-            pNode -> data = tree;
-            pNode -> pNext = list;
-            previous -> pNext = pNode;
-            return pTemp;
-        }
+    //Case of an insertion a the beginning of the list
+    if(getLength(list->data->words) <= getLength(tree->words)){
+        pNewNode -> pNext = list;
+        return pNewNode;
     }
-*/
-    //Tant qu'il reste un élément suivant dans la liste et que > on itère
+
+    //Keep in memory the first node of the list
+    pFirstNode = list;
+
+    //Iterate through the list until a proper place to insert the element is found
     while(list->pNext != NULL && getLength(list->pNext->data->words) > getLength(tree->words)){
         list = list->pNext;
     }
-    // Soit <=
-    // Soit list->pNext == NULL
-    pNode -> data = tree;
-    pNode -> pNext = list -> pNext;
-    list->pNext = pNode;
-    return pTemp;
-/*
-    //Cas où on arrive à la fin de la liste chainée
-    printf("Insertion queue\n");
-    pNode -> data = tree;
-    pNode -> pNext = NULL;
-    previous -> pNext = pNode;
-    return pTemp;
-*/
-    
+
+    //Insert the node in the linked list
+    pNewNode -> pNext = list -> pNext;
+    list->pNext = pNewNode;
+    return pFirstNode;
 }
