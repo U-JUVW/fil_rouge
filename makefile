@@ -1,8 +1,5 @@
-PWD=$(shell pwd)
-REP=$(shell basename $(PWD))
 SOURCES=$(shell cat makefile_sources)
 CIBLE=displayAVL.exe indexation.exe anagrammes.exe
-CFLAGS=-Wall
 
 all: prog1 prog2 prog3
 
