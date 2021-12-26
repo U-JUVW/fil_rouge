@@ -1,1 +1,1 @@
-main.c elt.c avl.c list.c ex1.c ex2.c ex3.c
+elt.c avl.c list.c utils.c

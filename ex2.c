@@ -1,7 +1,24 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>   //Used to compute execution time
+#include <math.h>   //Used to compute the min height
+
+#include "utils.h"
 #include "ex2.h"
 
 //Let's define the "signature" of a word as the letters of this word sorted in alphabetic order
 
+
+int main(int argc, char const *argv[])
+{
+    if(argc < 2){
+        printf("Missing argument. Please enter the file path while executing the program.\nCorrect usage : <.exe path> <arg1>\n\t| arg1 : File path\n");
+        return 1;
+    }
+    program2(strdup(argv[1]));
+    
+    return 0;
+}
 
 //Core function for the second exercise
 void program2(char * path){
@@ -40,44 +57,6 @@ void program2(char * path){
         getAnagrams(input, root);                //Print the list of anagrams
     }
 }
-/**
- +===============================================================================================================+
- |+-------------------------------------------------------------------------------------------------------------+|
- ||                                                                                                             ||
- || FUNCTION :          int getAnagramTree                                                                      ||
- ||                                                                                                             ||
- || DESCRIPTION :       Modifies an AVL tree in which each node will contains a list of anagrams and a their    ||
- ||                     signature, and computes the number of anagrams in the whole dictionnary.                ||
- ||                     The dictionnary is a txt file whose path is given in parameters.                        ||
- ||                                                                                                             ||
- || PARAMETERS :                                                                                                ||
- ||     char *          path        ->           Path to the txt file that will be read                         ||
- ||     int             pRoot       ->           Pointer to the AVL tree that will be edited                    ||
- ||                                                                                                             ||
- || OUTPUT :                                                                                                    ||
- ||     int                         ->           Number of anagrams in the txt file                             ||
- ||                                                                                                             ||
- |+-------------------------------------------------------------------------------------------------------------+|
- +===============================================================================================================+
- */
-int getAnagramTree(char * path, _avlTree * pRoot){
-    _list L = NULL;
-    int nbWords = 0;
-    L = readFile(path, 0);                          //Get the words from the file
-    printf("Ajout des mots dans l'arbre ...\n");
-    //Iterate through the list of words
-    while(L != NULL){
-        nbWords ++;
-        //Try to insert a new node, get the pointer to the node containing the signature of the word
-        _avlTree temp = insertAVL(pRoot, sortstr(L->data));
-        //Add the word to the anagram list of this node
-        temp->words = addNode(L->data, temp->words);
-        L = L->pNext;
-    }
-    printf("Done\n");
-    return nbWords;
-}
-
 
 /**
  +===============================================================================================================+

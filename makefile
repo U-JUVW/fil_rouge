@@ -1,19 +1,23 @@
 PWD=$(shell pwd)
 REP=$(shell basename $(PWD))
 SOURCES=$(shell cat makefile_sources)
-CIBLE=out.exe
+CIBLE=displayAVL.exe indexation.exe anagrammes.exe
 CFLAGS=-Wall
 
 # makefile générique pour produire un code source 
 # dont le nom correspond au nom du répertoire qui le contient
 
-all: $(CIBLE)
-	@echo "Le programme $(CIBLE) a été produit dans le répertoire $(REP)"
+all: prog1 prog2 prog3
 
-$(CIBLE) : $(SOURCES)
-	@echo -n "Production de $(CIBLE)"
-	@echo " à partir des fichiers : $(SOURCES)"
-	gcc $(CFLAGS) $(SOURCES) -o $@ -g -lm
+prog1 : $(SOURCES) ex1.c
+	@echo -n "Production de l'exécutable \"displayAVL.exe\"\n"
+	@gcc -Wall $(SOURCES) ex1.c -o displayAVL.exe
+prog2 : $(SOURCES) ex2.c
+	@echo -n "Production de l'exécutable \"indexation.exe\"\n"
+	@gcc -Wall $(SOURCES) ex2.c -o indexation.exe -lm
+prog3 : $(SOURCES) ex3.c
+	@echo -n "Production de l'exécutable \"anagrammes.exe\"\n"
+	@gcc -Wall $(SOURCES) ex3.c -o anagrammes.exe
 
 clean: 
 	@echo "Nettoyage de $(CIBLE)"

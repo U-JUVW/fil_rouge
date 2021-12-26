@@ -1,4 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "utils.h"
 #include "ex3.h"
+
+int main(int argc, char const *argv[])
+{
+    if(argc < 2){
+        printf("Missing argument. Please enter the file path while executing the program.\nCorrect usage : <.exe path> <arg1>\n\t| arg1 : File path\n");
+        return 1;
+    }
+    program3(strdup(argv[1]));
+    return 0;
+}
 
 //Core function for the third exercise
 void program3(char * path){

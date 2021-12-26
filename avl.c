@@ -495,9 +495,9 @@ void createDotAVL(const _avlTree root, const char *basename) {
     char DOSSIER_DOT[FILENAME_MAX + 1]; 
     char DOSSIER_PNG[FILENAME_MAX + 1]; 
 
-    char fnameDot [FILENAME_MAX + 1];
-    char fnamePng [FILENAME_MAX + 1];
-    char    cmdLine [2 * FILENAME_MAX + 20];
+    char fnameDot [FILENAME_MAX + 10];
+    char fnamePng [FILENAME_MAX + 10];
+    char    cmdLine [2 * FILENAME_MAX + 40];
     FILE *fp;
     struct stat sb;
     
