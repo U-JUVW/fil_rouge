@@ -4,9 +4,6 @@ SOURCES=$(shell cat makefile_sources)
 CIBLE=displayAVL.exe indexation.exe anagrammes.exe
 CFLAGS=-Wall
 
-# makefile générique pour produire un code source 
-# dont le nom correspond au nom du répertoire qui le contient
-
 all: prog1 prog2 prog3
 
 prog1 : $(SOURCES) ex1.c
