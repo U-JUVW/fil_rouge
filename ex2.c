@@ -46,14 +46,14 @@ void program2(char * path){
     while(1){
         char input[30];
         printf("+---------------------------+\n");
-        printf("| Rechercher un anagramme ? |\n|   0 : NON   |   1 : OUI   |\n+---------------------------+\n ► ");
+        printf("|     Search anagrams ?     |\n|   0 : NO    |   1 : YES   |\n+---------------------------+\n ► ");
         //Check whether the user wants to search for anagrams
         scanf("%d",&boolean);   
         if(boolean == 0){       //If no, return
             break;
         }
-        printf(" ► Saisir un mot : ");
-        scanf("%s",input);                      //Get the reference word
+        printf(" ► Enter a word or letters : ");
+        scanf("%s",input);                       //Get the reference word
         getAnagrams(input, root);                //Print the list of anagrams
     }
 }
@@ -89,7 +89,7 @@ void getAnagrams(char * input, _avlTree root){
 
     //Case of a word that is not in the dictionnary
     if(pNode == NULL){
-        printf("\nCe mot ne figure pas dans le dictionnaire\n");
+        printf("\nThis word isn't in the given dictionary\n");
         return;
     }
 
@@ -97,20 +97,20 @@ void getAnagrams(char * input, _avlTree root){
     depth = heightAVL(root) - heightAVL(pNode);             //Compute depth of the node
 
     //Print the result
-    printf("\t| Liste des anagrammes : ");
+    printf("\t| Angram list : ");
     showList(pNode->words);
     printf("\n");
-    printf("\t| Profondeur du noeud : %d\n",depth);
-    printf("\t| Temps de recherche : %fs\n",execTime);
+    printf("\t| Depth of the node : %d\n",depth);
+    printf("\t| Search time : %fs\n",execTime);
 }
 
 
 //Print the stats
 void printStats(int length, int nbWords, double execTime, int nbNodes, int hMin){ 
-    printf("Statistiques de l'arbre : \n");
-    printf("\t| Longueur des mots : %d\n",length);
-    printf("\t| Nombre de mots : %d\n",nbWords);
-    printf("\t| Temps de création : %fs\n",execTime);
-    printf("\t| Nombre de noeuds : %d\n", nbNodes);
-    printf("\t| Hauteur minimale : %d\n",hMin);
+    printf("Stats : \n");
+    printf("  | Length of the words : %d\n",length);
+    printf("  | Number of words : %d\n",nbWords);
+    printf("  | Time to create the tree : %fs\n",execTime);
+    printf("  | Number of nodes : %d\n", nbNodes);
+    printf("  | Mnimal height : %d\n",hMin);
 }

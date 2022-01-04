@@ -26,7 +26,7 @@ void program3(char * path){
                                                         //  and the number of anagrams within the whole file
 
     printf("\n");
-    printf("Nombre d'anagrammes : %d\n",nbAnagrams);
+    printf("Number of anagrams : %d\n",nbAnagrams);
     printf("**********************************************\n");
     printAnagrams(anagrams);                                            //Print the lists of anagrams, sorted by descending length
 }
@@ -89,7 +89,7 @@ void printAnagrams(_listAVLtree anagrams){
     //Iterate through the linked list
     while(anagrams != NULL){
         //Print anagrams
-        printf("Anagrammes pour les lettres %s (%d):\n",anagrams->data->value,getLength(anagrams->data->words));   
+        printf("Anagrams with the letters %s (%d):\n",anagrams->data->value,getLength(anagrams->data->words));   
         showList(anagrams->data->words);    
         printf("\n");
 

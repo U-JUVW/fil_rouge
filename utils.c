@@ -78,7 +78,7 @@ int getAnagramTree(char * path, _avlTree * pRoot){
     _list L = NULL;
     int nbWords = 0;
     L = readFile(path, 0);                          //Get the words from the file
-    printf("Ajout des mots dans l'arbre ...\n");
+    printf("Creating AVL tree ...\n");
     //Iterate through the list of words
     while(L != NULL){
         nbWords ++;
