@@ -36,10 +36,10 @@ void program2(char * path){
     nbWords = getAnagramTree(path, &root);
     end = clock();
 
+    hAVL = heightAVL(root);
     execTime = (double) (end - begin) / CLOCKS_PER_SEC;         //Get the time spent on tree creation
     nbNodes = nbNodesAVL(root);                                 //Get the number of nodes
     length = strlen(root->value);                               //Get the length of the words (same one for each element)
-    hAVL = heightAVL(root);
     hMin = (int) log2(nbNodes);                                 //Compute the min height for a tree with the same number of nodes
     printStats(length, nbWords, execTime, nbNodes, hMin, hAVL);       //Print those stats
 
@@ -112,7 +112,7 @@ void printStats(int length, int nbWords, double execTime, int nbNodes, int hMin,
     printf("  | Length of the words : %d\n",length);
     printf("  | Number of words : %d\n",nbWords);
     printf("  | Time to create the tree : %fs\n",execTime);
-    printf("  | Number of nodes : %d\n", nbNodes);	
+    printf("  | Number of nodes : %d\n", nbNodes);
     printf("  | AVL tree height : %d\n",hAVL);
     printf("  | Minimal height : %d\n",hMin);
 }
